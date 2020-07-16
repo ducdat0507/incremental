@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Project: Incremental</title>
+        <script src="Build/UnityLoader.js"></script>
+        <style>
+            body {
+                font-family: "Liberation Sans", sans-serif;
+            }
+        </style>
+        <script>
+            var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Build.json", {onProgress: OnGameProgress});
+            
+            function OnGameProgress (instance, progress) {
+                if (progress < .9) {
+                    document.getElementById("loadingBar").style.width = (progress * 100 / .9) + "%";
+                    document.getElementById("loadingText").innerText = "Downloading assets... (" + (progress * 100 / .9).toFixed(2) + "% completed)"; 
+                }
+                if (progress == .9) {
+                    document.getElementById("loadingBar").style.width = "100%";
+                    document.getElementById("loadingText").innerText = "Finishing up..."; 
+                }
+                if (progress === 1) {
+                    document.getElementById("loadingBar").style.boxShadow = "0 0 10px 0 #fff";
+                    document.getElementById("loadingText").innerText = "Done!"; 
+                    setTimeout (() => {
+                        document.getElementById("loaderHolder").remove();
+                    }, 2000);
+                }
+			}
+        </script>
+    </head>
+  
+    <body style="background-color:#222">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%)">
+            <div id="unityContainer" style="width:960px; height:600px;"></div>
+        </div>
+        <div id="loaderHolder" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%)">
+            <div id="loaderContainer" style="width:960px; height:600px; background-color:#808080">
+                <div style="position:absolute; margin:0 20px 0 20px; top:20px; font-size:24px; color:#fff">Project: Incremental</div>
+                <div style="position:absolute; margin:0 20px 0 20px; top:50px; font-size:12px; color:#fff">a game by ducdat0507</div>
+                <div id="loadingText" style="position:absolute; top:calc(100% - 48px); height:20px; width:920px; margin:0 20px 0 20px; color:#fff; font-size:12px; text-align:center">
+                </div>
+                <div style="position:absolute; top:calc(100% - 30px); height:10px; width:920px; margin:0 20px 0 20px; background-color:#333; box-shadow:inset 0px 0px 8px #0007, 0px 0px 8px 0px #0007">
+                    <div id="loadingBar" style="width:0; height:10px; background-color:#fff">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+  
+</html>
